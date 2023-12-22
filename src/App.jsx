@@ -20,7 +20,6 @@ function App() {
   return (
     <>
       {isLoading && <Loader />}
-
       <GlobalStyles />
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>

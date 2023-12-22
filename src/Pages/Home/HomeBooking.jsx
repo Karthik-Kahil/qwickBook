@@ -2,7 +2,7 @@
 import styled from "styled-components";
 import BookingInput from "./BookingInput";
 import SpinnerMini from "../../UI/SpinnerMini";
-import BookingSlots from "./BookingSlots";
+// import BookingSlots from "./BookingSlots";
 import { useForm } from "react-hook-form";
 import { sendBookings } from "../../Services/apiBooking";
 import { useState } from "react";
