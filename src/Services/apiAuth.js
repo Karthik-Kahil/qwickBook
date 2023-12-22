@@ -74,7 +74,7 @@ export async function logout() {
       }
     );
 
-    // if (sendData.status === "success") location.reload(true);
+    if (sendData.status === "true") location.reload(true);
 
     if (!sendData.ok) {
       throw new Error(

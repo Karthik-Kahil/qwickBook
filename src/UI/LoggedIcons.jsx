@@ -23,9 +23,9 @@ const ExitIcon = styled(RxExit)`
 function LoggedIcons({ data }) {
   const handlerLogOut = async () => {
     localStorage.clear("userData");
-    window.location.reload(false);
     try {
       await logout();
+      window.location.reload(false);
     } catch (error) {
       console.log(error);
       toast.error("You already logged out!");
