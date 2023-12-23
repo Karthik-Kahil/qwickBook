@@ -25,7 +25,7 @@ function SignupPage({ register, isLoading }) {
         <input
           type="password"
           id="password"
-          {...register("password", { required: true })}
+          {...register("passwordConfirm", { required: true })}
           disabled={isLoading}
         />
       </div>

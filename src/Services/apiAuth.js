@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 export async function loginAuth(data) {
   try {
     const sendData = await fetch(
@@ -16,8 +18,6 @@ export async function loginAuth(data) {
 
     if (sendData.ok) {
       const responseJson = await sendData.json();
-      console.log("Done");
-      console.log(responseJson);
       localStorage.setItem(
         "userData",
         JSON.stringify({
@@ -83,6 +83,38 @@ export async function logout() {
     }
   } catch (error) {
     console.error("Error:", error);
+    throw error;
+  }
+}
+
+export async function signUp(data) {
+  try {
+    const sendData = await fetch(
+      "https://subtesting.qwickbook.com/api/v2/user/signup",
+      {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (sendData.ok) {
+      const responseJson = await sendData.json();
+      toast.success("Signed up successfully!");
+      return responseJson;
+    } else if (sendData.status === 401) {
+      // Check for a specific status code (e.g., conflict)
+      toast.error(`You already have an account with this email`);
+    } else {
+      const errorMessage = await sendData.text();
+      throw new Error(`Sign up failed: ${errorMessage}`);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    toast.error("An unexpected error occurred during sign up");
     throw error;
   }
 }

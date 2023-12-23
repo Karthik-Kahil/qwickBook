@@ -9,7 +9,9 @@ import { setLoginPage } from "../../loginShowSlice";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import LinkStyle from "../../UI/LinkStyle";
+import SignupPage from "./SignupPage";
 import toast from "react-hot-toast";
+import useSignup from "../../Auth/useSignup";
 
 const StyledContainer = styled.div`
   position: fixed;
@@ -100,12 +102,13 @@ const ForgotLink = styled.div`
 `;
 
 function LoginPage() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const { login, isLoading } = useLogin();
+  const { signup } = useSignup();
   const [isLoadingSpin, setIsLoadingSpin] = useState(false);
 
   const [isForgotPassword, setIsForgotPassword] = useState(false);
-  // const [isSignup, setSignUp] = useState(false);
+  const [isSignup, setSignUp] = useState(false);
   const [currentCopy, setCurrentCopy] = useState({
     header: "Hello there!",
     button: "Log in",
@@ -120,16 +123,24 @@ function LoginPage() {
 
   const onSubmit = (data) => {
     setIsLoadingSpin((show) => !show);
-    if (!data.email || !data.password) {
-      toast.error("Please enter the email & password");
-    }
-    if (data.password.length < 8) {
-      toast.error("Password must be in 8 characters");
-    }
-    login(data, {
+    if (!data.email || !data.password) return;
+
+    if (!isSignup)
+      return login(data, {
+        onSettled: () => {
+          setIsLoadingSpin((show) => !show);
+          reset();
+        },
+      });
+
+    if (isSignup)
+      if (data.password !== data.passwordConfirm)
+        return toast.error("Password must be equal");
+    return signup(data, {
       onSettled: () => {
-        console.log("Success");
         setIsLoadingSpin((show) => !show);
+        reset();
+        pageShowHandler();
       },
     });
   };
@@ -152,6 +163,15 @@ function LoginPage() {
     });
   };
 
+  const signupHandler = () => {
+    setSignUp((el) => !el);
+    setCurrentCopy({
+      header: "Welcome to QwickBook",
+      button: "Signup",
+      image: "Medicine.svg",
+    });
+  };
+
   return (
     <>
       <Overlay onClick={pageShowHandler}></Overlay>
@@ -165,47 +185,56 @@ function LoginPage() {
         </Icon>
         <h2>{currentCopy.header}</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              {...register("email", { required: true })}
-              disabled={isLoading}
-            />
-          </div>
-          {!isForgotPassword && (
-            <div>
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                {...register("password", { required: true, minLength: 8 })}
-                disabled={isLoading}
-              />
-            </div>
+          {isSignup && <SignupPage register={register} />}
+          {!isSignup && (
+            <>
+              <div>
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  {...register("email", { required: true })}
+                  disabled={isLoading}
+                />
+              </div>
+              {!isForgotPassword && (
+                <div>
+                  <label htmlFor="password">Password</label>
+                  <input
+                    type="password"
+                    id="password"
+                    {...register("password", { required: true, minLength: 8 })}
+                    disabled={isLoading}
+                  />
+                </div>
+              )}{" "}
+            </>
           )}
           <ForgotLink>
-            {!isForgotPassword && (
+            {(!isForgotPassword && isSignup) || (
               <Link onClick={() => forgotHandler()}>
                 <p>Forgot your password?</p>
               </Link>
             )}
             {isForgotPassword && (
               <p>
-                Already have an account{" "}
+                Already have an account
                 <LinkStyle onClick={() => defaultHandler()}>Sign in</LinkStyle>
               </p>
             )}
+
             <button>
               {!isLoadingSpin ? currentCopy.button : <SpinnerMini />}
             </button>
           </ForgotLink>
 
           <ForgotLink>
-            <p>
-              Not a member? <LinkStyle>Sign up</LinkStyle>
-            </p>
+            {!isSignup && (
+              <p>
+                Not a member?{" "}
+                <LinkStyle onClick={() => signupHandler()}>Sign up</LinkStyle>
+              </p>
+            )}
           </ForgotLink>
         </form>
       </StyledContainer>
