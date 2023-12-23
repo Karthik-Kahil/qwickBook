@@ -1,15 +1,5 @@
 import styled from "styled-components";
-
-const StyledDiv = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-
-  background: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-`;
+import Overlay from "./Overlay";
 
 const StyledLoader = styled.div`
   position: absolute;
@@ -36,9 +26,9 @@ const StyledLoader = styled.div`
 
 function Loader() {
   return (
-    <StyledDiv>
+    <Overlay>
       <StyledLoader />
-    </StyledDiv>
+    </Overlay>
   );
 }
 

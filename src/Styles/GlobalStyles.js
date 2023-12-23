@@ -7,6 +7,7 @@ const GlobalStyles = createGlobalStyle`
     --color-primary: #EEE7DE;
     --color-green-a1: #53B434;
     --color-green-a1-hover: #6AC556;
+    --color--login--a1: #01529A;
     
     --color-dark-blue: #111827;
     --color-blue-bg: #173641;
@@ -22,6 +23,7 @@ const GlobalStyles = createGlobalStyle`
 
 
   --color-grey-0: #FBF6EE;
+  --color-green-0: #E3F0A8;
   --color-grey-1: #000;
   --color-grey-50: #f9fafb;
   --color-grey-blur: #f9fafbe1;
