@@ -2,7 +2,7 @@
 import styled from "styled-components";
 import BookingInput from "./BookingInput";
 import SpinnerMini from "../../UI/SpinnerMini";
-// import BookingSlots from "./BookingSlots";
+import BookingSlots from "./BookingSlots";
 import { useForm } from "react-hook-form";
 import { sendBookings } from "../../Services/apiBooking";
 import { useState } from "react";
@@ -63,9 +63,10 @@ const StyledForm = styled.form`
   }
 `;
 
-// const BookingTime = styled.div`
-//   grid-column: span 2;
-// `;
+const BookingTime = styled.div`
+  grid-column: span 2;
+  overflow: scroll;
+`;
 
 function HomeBooking({ name, email }) {
   const { register, handleSubmit } = useForm();
@@ -99,32 +100,22 @@ function HomeBooking({ name, email }) {
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
-      <BookingInput
-        type={"text"}
-        nameId={"name"}
-        value={name}
-        register={register}
-      >
+      <BookingInput type={"text"} nameId={"name"} register={register}>
         First Name*
       </BookingInput>
       <BookingInput type={"text"} nameId={"lastName"} register={register}>
         Last Name
       </BookingInput>
-      <BookingInput
-        type={"email"}
-        nameId={"email"}
-        value={email}
-        register={register}
-      >
+      <BookingInput type={"email"} nameId={"email"} register={register}>
         Email id*
       </BookingInput>
       <BookingInput type={"date"} nameId={"appoinmentDate"} register={register}>
         Appoinment Date*
       </BookingInput>
-      {/* <BookingTime>
+      <BookingTime>
         <label htmlFor="">Select time</label>
         <BookingSlots />
-      </BookingTime> */}
+      </BookingTime>
       <BookingInput type={"text"} nameId={"city"} register={register}>
         City*
       </BookingInput>

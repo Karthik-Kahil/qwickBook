@@ -5,6 +5,8 @@ import NavLinks from "./NavLinks";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import LoggedIcons from "../../UI/LoggedIcons";
+import { useDispatch } from "react-redux";
+import { setLoginPage } from "../../loginShowSlice";
 
 const StyledDiv = styled.div`
   div {
@@ -23,6 +25,11 @@ const StyledDiv = styled.div`
 function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedData, setLoggedData] = useState([]);
+  const dispatch = useDispatch();
+
+  const pageShowHandler = () => {
+    dispatch(setLoginPage(true));
+  };
 
   useEffect(() => {
     // Get all cookies
@@ -51,7 +58,7 @@ function NavBar() {
         {isLoggedIn ? (
           <LoggedIcons data={loggedData} />
         ) : (
-          <Button>Login</Button>
+          <Button onClick={pageShowHandler}>Login</Button>
         )}
       </div>
     </StyledDiv>

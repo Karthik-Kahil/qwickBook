@@ -4,6 +4,8 @@ import Section from "./Section";
 import HeaderH2 from "../../UI/HeaderH2";
 import { useEffect, useState } from "react";
 import Button from "../../UI/Button";
+import { useDispatch } from "react-redux";
+import { setLoginPage } from "../../loginShowSlice";
 
 const StyledDiv = styled.div`
   background-color: var(--color-blue-bg);
@@ -39,6 +41,11 @@ const AppointmentSection = styled.div`
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedData, setLoggedData] = useState([]);
+  const dispatch = useDispatch();
+
+  const pageShowHandler = () => {
+    dispatch(setLoginPage(true));
+  };
 
   useEffect(() => {
     // Get all cookies
@@ -75,7 +82,7 @@ function Home() {
             {isLoggedIn ? (
               <HomeBooking name={loggedData.name} email={loggedData.email} />
             ) : (
-              <Button>Book appoinment today!</Button>
+              <Button onClick={pageShowHandler}>Book appoinment today!</Button>
             )}
           </AppointmentSection>
         </div>

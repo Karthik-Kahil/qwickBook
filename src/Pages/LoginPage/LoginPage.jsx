@@ -4,11 +4,18 @@ import useLogin from "../../Auth/useLogin";
 import SpinnerMini from "../../UI/SpinnerMini";
 import { IoMdCloseCircle } from "react-icons/io";
 import Overlay from "../../UI/Overlay";
+import { useState } from "react";
+import { setLoginPage } from "../../loginShowSlice";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import LinkStyle from "../../UI/LinkStyle";
+import toast from "react-hot-toast";
 
 const StyledContainer = styled.div`
   position: fixed;
   flex-direction: column;
-  background-color: var(--color--login--a1);
+  background-color: var(--color-dark-blue);
+  border: 2px solid var(--color-green-a1);
   border-radius: 10px;
   width: 500px;
   height: auto;
@@ -58,6 +65,11 @@ const StyledContainer = styled.div`
     padding: 1rem 2rem;
     margin-top: 2rem;
     border-radius: 10px;
+    font-size: 2rem;
+
+    &:hover {
+      background-color: var(--color-green-a1-hover);
+    }
   }
 `;
 
@@ -80,28 +92,78 @@ const Icon = styled.div`
   }
 `;
 
+const ForgotLink = styled.div`
+  p {
+    font-size: 1.5rem;
+    color: var(--color-grey-0);
+  }
+`;
+
 function LoginPage() {
   const { register, handleSubmit } = useForm();
   const { login, isLoading } = useLogin();
+  const [isLoadingSpin, setIsLoadingSpin] = useState(false);
+
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  // const [isSignup, setSignUp] = useState(false);
+  const [currentCopy, setCurrentCopy] = useState({
+    header: "Hello there!",
+    button: "Log in",
+    image: "Hearth.svg",
+  });
+
+  const dispatch = useDispatch();
+
+  const pageShowHandler = () => {
+    dispatch(setLoginPage(false));
+  };
 
   const onSubmit = (data) => {
-    if (!data.email || !data.password) return;
+    setIsLoadingSpin((show) => !show);
+    if (!data.email || !data.password) {
+      toast.error("Please enter the email & password");
+    }
+    if (data.password.length < 8) {
+      toast.error("Password must be in 8 characters");
+    }
     login(data, {
       onSettled: () => {
         console.log("Success");
+        setIsLoadingSpin((show) => !show);
       },
+    });
+  };
+
+  const forgotHandler = () => {
+    setIsForgotPassword((el) => !el);
+    setCurrentCopy({
+      header: "Forgot password",
+      button: "Continue",
+      image: "Checklist.svg",
+    });
+  };
+
+  const defaultHandler = () => {
+    setIsForgotPassword((el) => !el);
+    setCurrentCopy({
+      header: "Hello there!",
+      button: "Log in",
+      image: "Hearth.svg",
     });
   };
 
   return (
     <>
-      <Overlay></Overlay>
+      <Overlay onClick={pageShowHandler}></Overlay>
       <StyledContainer>
-        <CloseIcon />
+        <CloseIcon onClick={pageShowHandler} />
         <Icon>
-          <img src="../public/Hearth.svg" alt="" />
+          <img
+            src={`../public/${currentCopy.image}`}
+            alt={currentCopy.header}
+          />
         </Icon>
-        <h2>Hello there!</h2>
+        <h2>{currentCopy.header}</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label htmlFor="email">Email</label>
@@ -112,18 +174,39 @@ function LoginPage() {
               disabled={isLoading}
             />
           </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              {...register("password", { required: true, minLength: 8 })}
-              disabled={isLoading}
-            />
-          </div>
-          <div>
-            <button>{!isLoading ? "Log in" : <SpinnerMini />}</button>
-          </div>
+          {!isForgotPassword && (
+            <div>
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                {...register("password", { required: true, minLength: 8 })}
+                disabled={isLoading}
+              />
+            </div>
+          )}
+          <ForgotLink>
+            {!isForgotPassword && (
+              <Link onClick={() => forgotHandler()}>
+                <p>Forgot your password?</p>
+              </Link>
+            )}
+            {isForgotPassword && (
+              <p>
+                Already have an account{" "}
+                <LinkStyle onClick={() => defaultHandler()}>Sign in</LinkStyle>
+              </p>
+            )}
+            <button>
+              {!isLoadingSpin ? currentCopy.button : <SpinnerMini />}
+            </button>
+          </ForgotLink>
+
+          <ForgotLink>
+            <p>
+              Not a member? <LinkStyle>Sign up</LinkStyle>
+            </p>
+          </ForgotLink>
         </form>
       </StyledContainer>
     </>
