@@ -9,11 +9,9 @@ import Loader from "./UI/Loader";
 const queryClient = new QueryClient();
 
 function App() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
-
     window.onload = () => {
       setIsLoading(false);
     };

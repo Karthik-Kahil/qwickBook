@@ -34,7 +34,7 @@ function LoggedIcons({ data }) {
 
   return (
     <StyledDiv>
-      <h4>{`HI, ${data.name.toUpperCase()}`}</h4>
+      <h4>{`${data.name.toUpperCase()}`}</h4>
       {/* <AvatarIcon /> */}
       <ExitIcon onClick={handlerLogOut} />
     </StyledDiv>

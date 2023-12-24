@@ -112,7 +112,7 @@ function LoginPage() {
   const [currentCopy, setCurrentCopy] = useState({
     header: "Hello there!",
     button: "Log in",
-    image: "Hearth.svg",
+    image: "Hearth.png",
   });
 
   const dispatch = useDispatch();
@@ -150,7 +150,7 @@ function LoginPage() {
     setCurrentCopy({
       header: "Forgot password",
       button: "Continue",
-      image: "Checklist.svg",
+      image: "Checklist.png",
     });
   };
 
@@ -159,7 +159,7 @@ function LoginPage() {
     setCurrentCopy({
       header: "Hello there!",
       button: "Log in",
-      image: "Hearth.svg",
+      image: "Hearth.png",
     });
   };
 
@@ -168,7 +168,7 @@ function LoginPage() {
     setCurrentCopy({
       header: "Welcome to QwickBook",
       button: "Signup",
-      image: "Medicine.svg",
+      image: "Medicine.png",
     });
   };
 
