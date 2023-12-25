@@ -13,9 +13,10 @@ const StyledDiv = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 3rem 0;
+    padding: 3rem 2rem;
     margin: auto;
-    max-width: 1100px;
+    max-width: 1300px;
+
     flex: 0;
   }
 

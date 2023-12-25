@@ -11,6 +11,7 @@ const StyledDiv = styled.div`
   background-color: var(--color-blue-bg);
   padding-top: 3rem;
   padding-bottom: 3rem;
+  padding: 0 5%;
 
   p {
     width: 100%;
@@ -25,6 +26,10 @@ const StyledDiv = styled.div`
     max-width: 1100px;
     margin: auto;
   }
+`;
+
+const Cover = styled.div`
+  padding-top: 5rem;
 `;
 
 const AppointmentSection = styled.div`
@@ -67,7 +72,7 @@ function Home() {
   return (
     <>
       <StyledDiv>
-        <div>
+        <Cover>
           <HeaderH2>
             We are the solution of <br />
             booking doctors in your city
@@ -85,7 +90,7 @@ function Home() {
               <Button onClick={pageShowHandler}>Book appoinment today!</Button>
             )}
           </AppointmentSection>
-        </div>
+        </Cover>
       </StyledDiv>
       <Section />
     </>

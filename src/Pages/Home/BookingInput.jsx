@@ -9,22 +9,11 @@ const StyledDiv = styled.div`
   align-items: start; */
 `;
 
-function BookingInput({ children, type, nameId, value, register, watch }) {
-  const test = () => {
-    const inputValue = watch(nameId);
-    console.log("Input value changed:", inputValue);
-  };
-
+function BookingInput({ children, type, nameId, value, register }) {
   return (
     <StyledDiv>
       <label htmlFor={nameId}>{children}</label>
-      <input
-        onChange={() => test()}
-        type={type}
-        id={nameId}
-        value={value}
-        {...register(nameId)}
-      />
+      <input {...register(nameId)} type={type} id={nameId} value={value} />
     </StyledDiv>
   );
 }

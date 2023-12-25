@@ -1,7 +1,7 @@
 export async function sendBookings(data) {
   try {
     const sendData = await fetch(
-      "https://subtesting.qwickbook.com/api/v2/clients/",
+      "https://subtesting.qwickbook.com/api/v2/clients",
       {
         method: "POST",
         credentials: "include",
