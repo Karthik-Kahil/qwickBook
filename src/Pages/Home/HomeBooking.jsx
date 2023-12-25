@@ -4,7 +4,7 @@ import BookingInput from "./BookingInput";
 import SpinnerMini from "../../UI/SpinnerMini";
 import BookingSlots from "./BookingSlots";
 import { useForm } from "react-hook-form";
-import { sendBookings } from "../../Services/apiBooking";
+import { getDoctorDetails, sendBookings } from "../../Services/apiBooking";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -69,7 +69,7 @@ const BookingTime = styled.div`
 `;
 
 function HomeBooking({ name, email }) {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch } = useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = async (data) => {
@@ -98,6 +98,19 @@ function HomeBooking({ name, email }) {
     }
   };
 
+  // Get doctors details
+  const doctorDetailsHandler = async (date) => {
+    try {
+      console.log(date);
+      // const fetchDetails = await getDoctorDetails(date);
+      // console.log(fetchDetails);
+      // return fetchDetails;
+    } catch (error) {
+      toast.error("Invalid date selected");
+    }
+  };
+  // Get doctors details
+
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
       <BookingInput type={"text"} nameId={"name"} register={register}>
@@ -109,7 +122,13 @@ function HomeBooking({ name, email }) {
       <BookingInput type={"email"} nameId={"email"} register={register}>
         Email id*
       </BookingInput>
-      <BookingInput type={"date"} nameId={"appoinmentDate"} register={register}>
+      <BookingInput
+        onChangeHandler={doctorDetailsHandler}
+        watch={watch}
+        type={"date"}
+        nameId={"appoinmentDate"}
+        register={register}
+      >
         Appoinment Date*
       </BookingInput>
       <BookingTime>

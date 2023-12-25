@@ -23,3 +23,28 @@ export async function sendBookings(data) {
     throw error;
   }
 }
+
+export async function getDoctorDetails(date) {
+  try {
+    const sendData = await fetch(
+      `http://127.0.0.1:6000/api/v2/doctors/${date}`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    );
+
+    if (sendData.ok) {
+      const responseJson = await sendData.json();
+      return responseJson;
+    } else {
+      throw new Error(`Failed to send data. Status: ${sendData.status}`);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Overlay from "./Overlay";
 
 const StyledLoader = styled.div`
   position: absolute;
@@ -16,6 +15,7 @@ const StyledLoader = styled.div`
   -webkit-mask-composite: source-out;
   mask-composite: subtract;
   animation: s3 1s infinite linear;
+  z-index: 999;
 
   @keyframes s3 {
     to {
@@ -24,11 +24,25 @@ const StyledLoader = styled.div`
   }
 `;
 
+const StyledDiv = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+`;
+
 function Loader() {
   return (
-    <Overlay>
+    <StyledDiv>
       <StyledLoader />
-    </Overlay>
+    </StyledDiv>
   );
 }
 

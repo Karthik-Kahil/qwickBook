@@ -32,9 +32,18 @@ function LoggedIcons({ data }) {
     }
   };
 
+  const frontName = () => {
+    const firstName = data.name.split(" ")[0].toUpperCase();
+
+    const displayText =
+      firstName.length > 10 ? `${firstName.slice(0, 10)}...` : firstName;
+
+    return displayText;
+  };
+
   return (
     <StyledDiv>
-      <h4>{`${data.name.toUpperCase()}`}</h4>
+      <h4>{frontName()}</h4>
       {/* <AvatarIcon /> */}
       <ExitIcon onClick={handlerLogOut} />
     </StyledDiv>

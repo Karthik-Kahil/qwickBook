@@ -9,17 +9,17 @@ import Loader from "./UI/Loader";
 const queryClient = new QueryClient();
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [loaded, setLoaded] = useState(true);
 
   useEffect(() => {
-    window.onload = () => {
-      setIsLoading(false);
-    };
+    setTimeout(() => {
+      setLoaded(false);
+    }, 1000);
   }, []);
 
   return (
     <>
-      {isLoading && <Loader />}
+      {loaded && <Loader />}
       <GlobalStyles />
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>

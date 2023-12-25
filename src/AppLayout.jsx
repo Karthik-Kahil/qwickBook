@@ -8,12 +8,14 @@ function AppLayout() {
   const { show } = useSelector((sel) => sel.loginShowSlice);
 
   return (
-    <div>
-      <NavBar />
-      <Toaster position="top-center" reverseOrder={false} />
-      <Outlet />
-      {show && <LoginPage />}
-    </div>
+    <>
+      <div>
+        <NavBar />
+        <Toaster position="top-center" reverseOrder={false} />
+        <Outlet />
+        {show && <LoginPage />}
+      </div>
+    </>
   );
 }
 
