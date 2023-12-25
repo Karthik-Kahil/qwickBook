@@ -5,11 +5,14 @@ import SpinnerMini from "../../UI/SpinnerMini";
 import BookingSlots from "./BookingSlots";
 import { useForm } from "react-hook-form";
 import { getDoctorDetails, sendBookings } from "../../Services/apiBooking";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import BookingSelection from "./BookingSelection";
+import LoaderSection from "../../UI/LoaderSection";
 
 const StyledForm = styled.form`
   display: grid;
+  position: relative;
   grid-template-columns: 1fr 1fr;
   width: 100%;
   grid-gap: 2rem;
@@ -72,6 +75,9 @@ const BookingTime = styled.div`
 function HomeBooking({ name, email }) {
   const { register, handleSubmit, watch } = useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [bookingData, setBookingData] = useState([]);
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
@@ -101,52 +107,66 @@ function HomeBooking({ name, email }) {
 
   // Get doctors details
   const doctorDetailsHandler = async (date) => {
-    if (date)
+    if (date) {
       try {
-        // console.log(date);
+        setIsLoading(true);
         const fetchDetails = await getDoctorDetails(date);
         console.log(fetchDetails);
+
+        setBookingData(fetchDetails);
+        setIsLoading(false);
       } catch (error) {
         toast.error("Invalid date selected");
       }
+    }
   };
-  // Get doctors details
+
+  useEffect(() => {
+    doctorDetailsHandler(watch("appoinmentDate"));
+  }, [watch, watch("appoinmentDate")]);
 
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
-      <BookingInput type={"text"} nameId={"name"} register={register}>
-        First Name*
-      </BookingInput>
-      <BookingInput type={"text"} nameId={"lastName"} register={register}>
-        Last Name
-      </BookingInput>
-      <BookingInput type={"email"} nameId={"email"} register={register}>
-        Email id*
-      </BookingInput>
-      <BookingInput
-        watch={watch}
-        doctorDetailsHandler={doctorDetailsHandler}
-        type={"date"}
-        nameId={"appoinmentDate"}
-        register={register}
-      >
-        Appoinment Date*
-      </BookingInput>
-      <BookingTime>
-        <label htmlFor="">Select time</label>
-        <BookingSlots />
-      </BookingTime>
-      <BookingInput type={"text"} nameId={"city"} register={register}>
-        City*
-      </BookingInput>
-      <BookingInput type={"number"} nameId={"mobile"} register={register}>
-        Mobile Number*
-      </BookingInput>
+    <>
+      <StyledForm onSubmit={handleSubmit(onSubmit)}>
+        {isLoading && <LoaderSection />}
+        <BookingInput type={"text"} nameId={"name"} register={register}>
+          First Name*
+        </BookingInput>
+        <BookingInput type={"text"} nameId={"lastName"} register={register}>
+          Last Name
+        </BookingInput>
+        <BookingInput type={"email"} nameId={"email"} register={register}>
+          Email id*
+        </BookingInput>
+        <BookingInput
+          type={"date"}
+          nameId={"appoinmentDate"}
+          register={register}
+        >
+          Select Booking Date*
+        </BookingInput>
 
-      <div className="form-container">
-        <button>{!isSubmitting ? "Submit" : <SpinnerMini />}</button>
-      </div>
-    </StyledForm>
+        {/* <BookingTime>
+        <label htmlFor="">Select time</label>
+        <BookingSlots bookingData={bookingData} />
+      </BookingTime> */}
+
+        <BookingSelection bookingData={bookingData}>
+          Select service*
+        </BookingSelection>
+
+        <BookingInput type={"text"} nameId={"city"} register={register}>
+          City*
+        </BookingInput>
+        <BookingInput type={"number"} nameId={"mobile"} register={register}>
+          Mobile Number*
+        </BookingInput>
+
+        <div className="form-container">
+          <button>{!isSubmitting ? "Submit" : <SpinnerMini />}</button>
+        </div>
+      </StyledForm>
+    </>
   );
 }
 

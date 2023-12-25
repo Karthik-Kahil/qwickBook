@@ -9,18 +9,7 @@ const StyledDiv = styled.div`
   align-items: start; */
 `;
 
-function BookingInput({
-  children,
-  type,
-  nameId,
-  value,
-  register,
-  watch,
-  doctorDetailsHandler,
-}) {
-  if (nameId === "appoinmentDate")
-    doctorDetailsHandler(watch("appoinmentDate"));
-
+function BookingInput({ children, type, nameId, value, register }) {
   return (
     <StyledDiv>
       <label htmlFor={nameId}>{children}</label>

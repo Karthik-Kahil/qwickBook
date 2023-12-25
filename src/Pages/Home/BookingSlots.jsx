@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled, { css } from "styled-components";
 
 const StyledContainer = styled.div`
@@ -44,22 +45,13 @@ const StyledBtn = styled.button`
     `}
 `;
 
-function BookingSlots() {
+function BookingSlots({ bookingData }) {
   return (
     <StyledContainer>
       <div>
-        <StyledBtn disabled={true}>2:00 am - 3:00 am</StyledBtn>
-        <StyledBtn>3:00 am - 4:00 am</StyledBtn>
-        <StyledBtn>4:00 am - 5:00 am</StyledBtn>
-        <StyledBtn>5:00 am - 6:00 am</StyledBtn>
-        <StyledBtn>6:00 am - 7:00 am</StyledBtn>
-        <StyledBtn>7:00 am - 8:00 am</StyledBtn>
-        <StyledBtn>7:00 am - 8:00 am</StyledBtn>
-        <StyledBtn>7:00 am - 8:00 am</StyledBtn>
-        <StyledBtn>7:00 am - 8:00 am</StyledBtn>
-        <StyledBtn>7:00 am - 8:00 am</StyledBtn>
-        <StyledBtn>7:00 am - 8:00 am</StyledBtn>
-        <StyledBtn>7:00 am - 8:00 am</StyledBtn>
+        {bookingData.map((data) => (
+          <StyledBtn key={data.name}>7:00 am - 8:00 am</StyledBtn>
+        ))}
       </div>
     </StyledContainer>
   );
