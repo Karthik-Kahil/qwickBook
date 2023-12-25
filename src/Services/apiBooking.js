@@ -27,7 +27,7 @@ export async function sendBookings(data) {
 export async function getDoctorDetails(date) {
   try {
     const sendData = await fetch(
-      `http://127.0.0.1:6000/api/v2/doctors/${date}`,
+      `https://subtesting.qwickbook.com/api/v2/doctors/${date}`,
       {
         method: "GET",
         credentials: "include",
