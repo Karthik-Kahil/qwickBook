@@ -45,6 +45,14 @@ const StyledForm = styled.form`
     border: 0;
   }
 
+  div > select {
+    width: 100%;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    outline: 0;
+    border: 0;
+  }
+
   .form-container {
     grid-column: span 2;
     margin-top: 2rem;
@@ -78,8 +86,10 @@ function HomeBooking({ name, email }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const [bookingData, setBookingData] = useState([]);
+  const [currentData, setCurrentData] = useState([]);
+  const [currentBookingList, setCurrentBookingList] = useState([]);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (e, data) => {
     setIsSubmitting(true);
     console.log(data);
 
@@ -113,6 +123,12 @@ function HomeBooking({ name, email }) {
         const fetchDetails = await getDoctorDetails(date);
         console.log(fetchDetails);
 
+        if (
+          fetchDetails?.data?.doctors?.length <= 0 ||
+          fetchDetails?.data?.doctors?.length === undefined
+        )
+          toast.error("No doctors available on this date");
+
         setBookingData(fetchDetails);
         setIsLoading(false);
       } catch (error) {
@@ -138,6 +154,7 @@ function HomeBooking({ name, email }) {
         <BookingInput type={"email"} nameId={"email"} register={register}>
           Email id*
         </BookingInput>
+
         <BookingInput
           type={"date"}
           nameId={"appoinmentDate"}
@@ -146,14 +163,42 @@ function HomeBooking({ name, email }) {
           Select Booking Date*
         </BookingInput>
 
-        {/* <BookingTime>
-        <label htmlFor="">Select time</label>
-        <BookingSlots bookingData={bookingData} />
-      </BookingTime> */}
+        {bookingData?.data?.doctors?.length > 0 && (
+          <>
+            <BookingSelection
+              bookingData={bookingData}
+              label={"Choose services"}
+              select={"specialist"}
+              register={register}
+              setCurrentData={setCurrentData}
+              currentData={currentData}
+              currentBookingList={currentBookingList}
+              setCurrentBookingList={setCurrentBookingList}
+            >
+              Select service*
+            </BookingSelection>
 
-        <BookingSelection bookingData={bookingData}>
-          Select service*
-        </BookingSelection>
+            <BookingSelection
+              bookingData={bookingData}
+              label={"Choose doctors"}
+              select={"doctorsname"}
+              register={register}
+              setCurrentData={setCurrentData}
+              currentData={currentData}
+              currentBookingList={currentBookingList}
+              setCurrentBookingList={setCurrentBookingList}
+            >
+              Select Doctor*
+            </BookingSelection>
+
+            {currentBookingList.length > 0 && (
+              <BookingTime>
+                <label htmlFor="">Select time</label>
+                <BookingSlots bookingData={currentBookingList} />
+              </BookingTime>
+            )}
+          </>
+        )}
 
         <BookingInput type={"text"} nameId={"city"} register={register}>
           City*
@@ -163,7 +208,9 @@ function HomeBooking({ name, email }) {
         </BookingInput>
 
         <div className="form-container">
-          <button>{!isSubmitting ? "Submit" : <SpinnerMini />}</button>
+          <button type="submit">
+            {!isSubmitting ? "Submit" : <SpinnerMini />}
+          </button>
         </div>
       </StyledForm>
     </>

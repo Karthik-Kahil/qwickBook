@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useState } from "react";
 import styled, { css } from "styled-components";
 
 const StyledContainer = styled.div`
@@ -14,7 +15,7 @@ const StyledContainer = styled.div`
   div {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
   }
 `;
 
@@ -28,9 +29,14 @@ const StyledBtn = styled.button`
   color: var(--color-grey-0);
   margin-top: 0rem !important;
   margin-bottom: 2rem !important;
+  margin-right: 1rem;
 
   &:hover {
     background-color: var(--color-green-a1);
+  }
+
+  abbr {
+    text-decoration: none;
   }
 
   ${(props) =>
@@ -46,11 +52,39 @@ const StyledBtn = styled.button`
 `;
 
 function BookingSlots({ bookingData }) {
+  const bookedSlots = bookingData[0]?.balanceSlots || [];
+
+  const [bookedSlotsData, setBookedSlotsData] = useState([]);
+
+  const slotHandler = (data) => {
+    setBookedSlotsData(data);
+  };
+
+  console.log(bookedSlotsData);
+  console.log(bookedSlots.includes(bookedSlotsData));
+  console.log(bookedSlotsData);
+
+  let cur = [];
+  console.log(cur);
+
   return (
     <StyledContainer>
       <div>
-        {bookingData.map((data) => (
-          <StyledBtn key={data.name}>7:00 am - 8:00 am</StyledBtn>
+        {bookingData[0]?.availableSlots.map((data) => (
+          <StyledBtn
+            onClick={() => slotHandler(data)}
+            type="button"
+            disabled={!bookedSlots.includes(data)}
+            key={data}
+          >
+            <abbr
+              title={
+                bookedSlots.includes(data) ? "Available" : "Already booked"
+              }
+            >
+              {data}
+            </abbr>
+          </StyledBtn>
         ))}
       </div>
     </StyledContainer>
