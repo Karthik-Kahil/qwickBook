@@ -9,7 +9,8 @@ const StyledContainer = styled.div`
   flex: 2;
   margin-top: 5rem;
   margin-bottom: 5rem;
-  height: 220px;
+  height: auto;
+  max-height: 220px;
   overflow: scroll;
 
   div {
