@@ -5,6 +5,7 @@ import Home from "./Pages/Home/Home";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import Loader from "./UI/Loader";
+import BookHistory from "./Pages/BookHistory/BookHistory";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ function App() {
               <Route path="/our-doctors" element={<Home />}></Route>
               <Route path="/facilities" element={<Home />}></Route>
               <Route path="/consultation" element={<Home />}></Route>
+              <Route path="/booking-history" element={<BookHistory />}></Route>
             </Route>
           </Routes>
         </BrowserRouter>

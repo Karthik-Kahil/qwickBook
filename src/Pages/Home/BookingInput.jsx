@@ -13,7 +13,12 @@ function BookingInput({ children, type, nameId, value, register }) {
   return (
     <StyledDiv>
       <label htmlFor={nameId}>{children}</label>
-      <input {...register(nameId)} type={type} id={nameId} value={value} />
+      <input
+        {...register(nameId, { required: true })}
+        type={type}
+        id={nameId}
+        value={value}
+      />
     </StyledDiv>
   );
 }

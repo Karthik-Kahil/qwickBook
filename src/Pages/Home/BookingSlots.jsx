@@ -3,8 +3,8 @@ import { useState } from "react";
 import styled, { css } from "styled-components";
 
 const StyledContainer = styled.div`
-  background-color: var(--color-grey-0);
-  padding: 2rem;
+  background-color: var(--color-grey-2);
+  padding: 2rem 2rem 0rem 2rem;
   border-radius: 1rem;
   flex: 2;
   margin-top: 5rem;
@@ -16,12 +16,22 @@ const StyledContainer = styled.div`
   div {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: left;
+    gap: 5px;
+  }
+
+  div > .active {
+    background-color: var(--color-active-a0);
+    border: 1px solid var(--color-active-a1);
+  }
+
+  div > .active:hover {
+    background-color: var(--color-active-a1);
   }
 `;
 
 const StyledBtn = styled.button`
-  width: 180px;
+  width: auto;
   background-color: var(--color-green-a1-hover);
   outline: 0;
   border: 1px solid var(--color-green-a1);
@@ -30,7 +40,7 @@ const StyledBtn = styled.button`
   color: var(--color-grey-0);
   margin-top: 0rem !important;
   margin-bottom: 2rem !important;
-  margin-right: 1rem;
+  /* margin-right: 1rem; */
 
   &:hover {
     background-color: var(--color-green-a1);
@@ -52,27 +62,31 @@ const StyledBtn = styled.button`
     `}
 `;
 
-function BookingSlots({ bookingData }) {
+function BookingSlots({ bookingData, setSelectedTimeBook, setValue }) {
   const bookedSlots = bookingData[0]?.balanceSlots || [];
 
   const [bookedSlotsData, setBookedSlotsData] = useState([]);
 
   const slotHandler = (data) => {
+    setValue("appointmentTime", data);
+    setValue("doctorsEmail", bookingData[0]?.email);
+    setValue("hospitalName", bookingData[0]?.hospital);
+    setValue("hospitalLocation", bookingData[0]?.location);
+
     setBookedSlotsData(data);
+    setSelectedTimeBook(data);
   };
 
-  console.log(bookedSlotsData);
-  console.log(bookedSlots.includes(bookedSlotsData));
-  console.log(bookedSlotsData);
-
-  let cur = [];
-  console.log(cur);
+  // console.log(bookedSlotsData);
+  // console.log(bookedSlots.includes(bookedSlotsData));
+  // console.log(bookedSlotsData);
 
   return (
     <StyledContainer>
       <div>
         {bookingData[0]?.availableSlots.map((data) => (
           <StyledBtn
+            className={data === bookedSlotsData ? "active" : ""}
             onClick={() => slotHandler(data)}
             type="button"
             disabled={!bookedSlots.includes(data)}

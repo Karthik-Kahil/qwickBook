@@ -4,11 +4,16 @@ import BookingInput from "./BookingInput";
 import SpinnerMini from "../../UI/SpinnerMini";
 import BookingSlots from "./BookingSlots";
 import { useForm } from "react-hook-form";
-import { getDoctorDetails, sendBookings } from "../../Services/apiBooking";
+import {
+  bookingSlots,
+  getDoctorDetails,
+  sendBookings,
+} from "../../Services/apiBooking";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import BookingSelection from "./BookingSelection";
 import LoaderSection from "../../UI/LoaderSection";
+import { useNavigate } from "react-router-dom";
 
 const StyledForm = styled.form`
   display: grid;
@@ -81,7 +86,9 @@ const BookingTime = styled.div`
 
 // eslint-disable-next-line no-unused-vars
 function HomeBooking({ name, email }) {
-  const { register, handleSubmit, watch } = useForm();
+  const navigate = useNavigate();
+  const { register, handleSubmit, watch, setValue, reset } = useForm();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -89,15 +96,19 @@ function HomeBooking({ name, email }) {
   const [currentData, setCurrentData] = useState([]);
   const [currentBookingList, setCurrentBookingList] = useState([]);
 
-  const onSubmit = async (e, data) => {
+  const [selectedTimeBook, setSelectedTimeBook] = useState("");
+
+  const onSubmit = async (data) => {
     setIsSubmitting(true);
-    console.log(data);
 
     if (
       !data.name &&
       !data.email &&
       !data.mobile &&
+      !data.doctorsName &&
+      !data.doctorsEmail &&
       !data.appointmentDate &&
+      !data.appointmentTime &&
       !data.city
     ) {
       setIsSubmitting(false);
@@ -106,10 +117,16 @@ function HomeBooking({ name, email }) {
 
     try {
       await sendBookings(data);
+      await bookingSlots(
+        data.appoinmentDate,
+        data.doctorsEmail,
+        data.appointmentTime
+      );
       toast.success("You've booked");
       setIsSubmitting(false);
+      reset();
+      navigate("/booking-history");
     } catch (error) {
-      // Handle submission error
       toast.error(`You are not logged in`);
       setIsSubmitting(false);
     }
@@ -121,7 +138,7 @@ function HomeBooking({ name, email }) {
       try {
         setIsLoading(true);
         const fetchDetails = await getDoctorDetails(date);
-        console.log(fetchDetails);
+        // console.log(fetchDetails);
 
         if (
           fetchDetails?.data?.doctors?.length <= 0 ||
@@ -181,7 +198,7 @@ function HomeBooking({ name, email }) {
             <BookingSelection
               bookingData={bookingData}
               label={"Choose doctors"}
-              select={"doctorsname"}
+              select={"doctorsName"}
               register={register}
               setCurrentData={setCurrentData}
               currentData={currentData}
@@ -193,8 +210,12 @@ function HomeBooking({ name, email }) {
 
             {currentBookingList.length > 0 && (
               <BookingTime>
-                <label htmlFor="">Select time</label>
-                <BookingSlots bookingData={currentBookingList} />
+                <label>Select time: {selectedTimeBook}</label>
+                <BookingSlots
+                  setValue={setValue}
+                  bookingData={currentBookingList}
+                  setSelectedTimeBook={setSelectedTimeBook}
+                />
               </BookingTime>
             )}
           </>

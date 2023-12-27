@@ -88,10 +88,10 @@ function BookingSelection({
         </select>
       )}
 
-      {select === "doctorsname" && (
+      {select === "doctorsName" && (
         <select
           {...register(select)}
-          value={select === "doctorsname" && currentDoctor}
+          value={select === "doctorsName" && currentDoctor}
           onChange={currentDoctorHandler}
         >
           <option value="">{label}</option>
@@ -100,7 +100,9 @@ function BookingSelection({
               {`${data.name.split("")[0].toUpperCase()}${data.name
                 .split("")
                 .splice(1)
-                .join("")} - (${data.hospital.toUpperCase()})`}
+                .join(
+                  ""
+                )} - (${data.hospital.toUpperCase()}) | ${data.location.toUpperCase()}`}
             </option>
           ))}
         </select>

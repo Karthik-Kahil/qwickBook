@@ -3,7 +3,6 @@ import NavBar from "./Components/NavBar/NavBar";
 import LoginPage from "./Pages/LoginPage/LoginPage";
 import { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
 
 function AppLayout() {
   const { show } = useSelector((sel) => sel.loginShowSlice);
