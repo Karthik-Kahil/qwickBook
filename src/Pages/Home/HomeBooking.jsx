@@ -100,6 +100,7 @@ function HomeBooking({ name, email }) {
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
+    console.log(data);
 
     if (
       !data.name &&
@@ -118,7 +119,7 @@ function HomeBooking({ name, email }) {
     try {
       await sendBookings(data);
       await bookingSlots(
-        data.appoinmentDate,
+        data.appointmentDate,
         data.doctorsEmail,
         data.appointmentTime
       );
@@ -155,8 +156,8 @@ function HomeBooking({ name, email }) {
   };
 
   useEffect(() => {
-    doctorDetailsHandler(watch("appoinmentDate"));
-  }, [watch, watch("appoinmentDate")]);
+    doctorDetailsHandler(watch("appointmentDate"));
+  }, [watch, watch("appointmentDate")]);
 
   return (
     <>
@@ -174,7 +175,7 @@ function HomeBooking({ name, email }) {
 
         <BookingInput
           type={"date"}
-          nameId={"appoinmentDate"}
+          nameId={"appointmentDate"}
           register={register}
         >
           Select Booking Date*

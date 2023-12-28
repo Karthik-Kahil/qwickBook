@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import Loader from "./UI/Loader";
 import BookHistory from "./Pages/BookHistory/BookHistory";
+import ProtectedRoute from "./Pages/LoginPage/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -25,13 +26,16 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
-            <Route element={<AppLayout />}>
-              <Route path="/" element={<Home />}></Route>
-              <Route path="/about-us" element={<Home />}></Route>
-              <Route path="/our-doctors" element={<Home />}></Route>
-              <Route path="/facilities" element={<Home />}></Route>
-              <Route path="/consultation" element={<Home />}></Route>
-              <Route path="/booking-history" element={<BookHistory />}></Route>
+            <Route path="/" element={<AppLayout />}>
+              <Route index element={<Home />} />
+              <Route path="about-us" element={<Home />} />
+              <Route path="our-doctors" element={<Home />} />
+              <Route path="facilities" element={<Home />} />
+              <Route path="consultation" element={<Home />} />
+
+              <Route element={<ProtectedRoute />}>
+                <Route path="booking-history" element={<BookHistory />} />
+              </Route>
             </Route>
           </Routes>
         </BrowserRouter>

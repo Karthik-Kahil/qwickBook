@@ -16,6 +16,7 @@ const GlobalStyles = createGlobalStyle`
     --color-dark-blue: #111827;
     --color-blue-bg: #173641;
     --color-red-a1: #D80032;
+    --color-red--hover: #EF4040;
     --color-green-a2: #4C6763;
     --color-secondary-a0: #D691EF;
     --color-secondary-a1: #A3DBD4;
@@ -44,7 +45,8 @@ const GlobalStyles = createGlobalStyle`
   --color-grey-800: #1f2937;
   --color-grey-900: #0e2934;
 
-  
+  --color-status-a1: #CBE5FE;
+  --color-status-a1-hover: #007AFE;
 
 }
 
@@ -148,8 +150,6 @@ img {
   /* For dark mode */
   filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
 }
-
-
 
 `;
 
