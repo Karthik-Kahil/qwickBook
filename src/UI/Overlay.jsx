@@ -6,7 +6,7 @@ const StyledDiv = styled.div`
   position: fixed;
   top: 0;
   bottom: 0;
-  z-index: 1;
+  z-index: 998;
 
   background: rgba(255, 255, 255, 0.5);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);

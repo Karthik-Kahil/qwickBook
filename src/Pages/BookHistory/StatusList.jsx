@@ -18,7 +18,7 @@ const Icons = styled.div`
     props.color &&
     css`
       color: var(${props.color});
-      background-color: var(${props.bg});
+      background-color: var(${props.$bg});
     `}
 
   padding: 2rem 2.3rem;
@@ -47,7 +47,7 @@ const Message = styled.div`
 function StatusList({ children, iconName, color, bg }) {
   return (
     <StatusContainer>
-      <Icons color={color} bg={bg}>
+      <Icons color={color} $bg={bg}>
         {iconName === "FaHospitalAlt" && <FaHospitalAlt />}
         {iconName === "IoToday" && <IoToday />}
         {iconName === "MdOutlineTimer" && <MdOutlineTimer />}

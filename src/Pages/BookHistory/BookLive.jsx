@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components";
 import BookHeader from "./BookHeader";
 
@@ -21,7 +22,7 @@ function BookLive({ totalBooking, todayBooking }) {
           color="--color-status-a1-hover"
           bg="--color-status-a1"
         >
-          <h2>{totalBooking}</h2>
+          <h2>{totalBooking || "0"}</h2>
           <p>Total Booking</p>
         </StatusList>
 
@@ -30,7 +31,7 @@ function BookLive({ totalBooking, todayBooking }) {
           color="--color-active-a1"
           bg="--color-active-a0"
         >
-          <h2>{todayBooking}</h2>
+          <h2>{todayBooking || "0"}</h2>
           <p>Today Booking</p>
         </StatusList>
 

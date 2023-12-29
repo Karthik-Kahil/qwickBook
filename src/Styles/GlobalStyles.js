@@ -18,15 +18,13 @@ const GlobalStyles = createGlobalStyle`
     --color-red-a1: #D80032;
     --color-red--hover: #EF4040;
     --color-green-a2: #4C6763;
-    --color-secondary-a0: #D691EF;
+    --color-secondary-a0: #f9fbe8;
     --color-secondary-a1: #A3DBD4;
     --color-secondary-a2: #F0B794;
     --color-secondary-a3: #BDDFF9;
 
-    --background--gradient: background: rgb(204,223,183);
-    --baackground--gradient: linear-gradient(180deg, rgba(204,223,183,1) 15%, rgba(207,223,208,1) 32%, rgba(216,231,196,1) 53%, rgba(231,236,188,1) 70%, rgba(232,235,199,0) 100%);;
 
-
+  
   --color-grey-0: #FBF6EE;
   --color-grey-2: #EEEEEE;
   --color-green-0: #E3F0A8;

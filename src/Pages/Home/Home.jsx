@@ -9,9 +9,9 @@ import { setLoginPage } from "../../loginShowSlice";
 
 const StyledDiv = styled.div`
   background-color: var(--color-blue-bg);
-  padding-top: 3rem;
+  padding-top: 2rem;
   padding-bottom: 3rem;
-  padding: 0 5%;
+  padding: 2% 5%;
 
   p {
     width: 100%;
@@ -35,12 +35,11 @@ const Cover = styled.div`
 const AppointmentSection = styled.div`
   display: flex;
   justify-content: center;
+`;
 
-  button {
-    text-align: center;
-    margin-top: 5rem;
-    margin-bottom: 5rem;
-  }
+const BookButton = styled.div`
+  margin-top: 5rem !important;
+  margin-bottom: 8rem !important;
 `;
 
 function Home() {
@@ -87,7 +86,11 @@ function Home() {
             {isLoggedIn ? (
               <HomeBooking name={loggedData.name} email={loggedData.email} />
             ) : (
-              <Button onClick={pageShowHandler}>Book appoinment today!</Button>
+              <BookButton>
+                <Button onClick={pageShowHandler}>
+                  Book appoinment today!
+                </Button>
+              </BookButton>
             )}
           </AppointmentSection>
         </Cover>
